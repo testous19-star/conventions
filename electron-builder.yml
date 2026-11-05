@@ -1,0 +1,18 @@
+appId: dz.sports.agreement-office-manager
+productName: Agreement Office Manager      # DO NOT CHANGE: user data lives in %APPDATA%\<productName>\data — renaming would hide the existing database
+directories: { output: release }
+files: [dist/**/*, package.json]
+extraResources: [{ from: db/schema.sql, to: schema.sql }]
+asar: true
+asarUnpack: ['**/node_modules/better-sqlite3/**']
+win:
+  target: [{ target: nsis, arch: [x64] }, { target: portable, arch: [x64] }]
+nsis:
+  artifactName: "Agreement-Office-Manager-Setup-${version}.${ext}"
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  deleteAppDataOnUninstall: false   # database and attachments survive uninstall and updates
+portable:
+  artifactName: "Agreement-Office-Manager-Portable-${version}.${ext}"   # same data folder as the installed version: the database is shared, never copied or lost
